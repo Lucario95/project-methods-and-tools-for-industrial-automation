@@ -1,5 +1,4 @@
 %PARTE 1 PROGETTO MTFIA
-%1)
 
 %Reset del workspace:
 clc;
@@ -8,4 +7,41 @@ clear;
 %Definizione e istanziazione delle variabili del sistema:
 %X è un vettore 3x1 rappresenta quantità giornaliera di prodotto
 %U è un vettore 5x1 rappresenta la quantità di materiali in ingresso e
-%prodotti in uscita da un cent
+    %prodotti in uscita da un centro di produzione:
+%alfa è la frequenza con cui entrano/escono questi prodotti ( B matrice 3x5 )
+%E' richiesto che U(3,:) = 4 * U(1,:);
+%                   U(4,:) = 2 * U(5,:);
+%                   X(2,:) ~ X(1,:);
+
+%Definizione intervalli di tempo:
+%Istante 0 corrisponde all'indice 1
+%L'istante finale corrisponde all'indice horizon ( 7 )
+
+sample_time = 1; %giorno
+horizon = 7;     %giorni
+
+%Definizione matrici A,B,C,D:
+A = eye(3); 
+B = [2 0 -1 0 0; 0 1 0 -2 0; 0 0 1 3 -1]; %alfa
+C = eye(3);
+D = zeros(3,5);
+
+%Definizione stato iniziale X0:
+X0 = [10, 7, 4];
+
+%Controllo autovalori:
+if isStable(A)
+    disp('Il sistema in ciclo aperto è stabile');
+else
+    disp('Il sistema in ciclo aperto è instabile!');
+end
+
+
+%Punto 1)
+
+%Definizione matrici costi quadratici:
+Q = 50*eye(3);
+Qf = Q;
+R = 1*eye(5);
+
+[
