@@ -1,0 +1,11 @@
+%PARTE 1 PROGETTO MTFIA
+%1)
+
+%Reset del workspace:
+clc;
+clear;
+
+%Definizione e istanziazione delle variabili del sistema:
+%X è un vettore 3x1 rappresenta quantità giornaliera di prodotto
+%U è un vettore 5x1 rappresenta la quantità di materiali in ingresso e
+%prodotti in uscita da un cent
