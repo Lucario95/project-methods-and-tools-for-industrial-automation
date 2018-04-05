@@ -75,8 +75,6 @@ Qf = Q;
 
 R = r*[eta*16 0 -4 0 0; 0 eta*alfa 0 0 0; -4 0 eta*1 0 0; 0 0 0 eta*1 -2; 0 0 0 -2 eta*4];
 
-eig(R)
-
 %Ottengo il valore di Kp:
 [K ,P] = lqrfinite(A, B, Q, Qf, R, T);
 
