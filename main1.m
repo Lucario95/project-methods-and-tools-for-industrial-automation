@@ -66,14 +66,14 @@ q = 1; %Quanto 'costa' lo stato
 r = 1; %Quanto 'costa' il controllo
 
 %Definizione matrici costi quadratici:
-Q = gamma*eye(3);
+Q = eye(3);
 Q(2,1) = -1;
 Q(1,2) = -1;
-Q(3,3) = gamma*beta;
-Q = q*Q;
+Q(3,3) = 0;
+Q = q*(Q + gamma*eye(3));
 Qf = Q;
 
-R = r*[eta*16 0 -4 0 0; 0 eta*alfa 0 0 0; -4 0 eta*1 0 0; 0 0 0 eta*1 -2; 0 0 0 -2 eta*4];
+R = r*([16 0 -4 0 0; 0 alfa 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta*eye(5));
 
 %Ottengo il valore di Kp:
 [K ,P] = lqrfinite(A, B, Q, Qf, R, T);
