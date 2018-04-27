@@ -13,9 +13,7 @@ clear;
 %                   U(4,:) = 2 * U(5,:);
 %                   X(2,:) ~ X(1,:);
 %Esprimiamo questi 3 vincoli come costo aggiuntivo da minimizzare nelle
-%equazioni di Riccati, tramite la differenza X-Z (dove Z esprimerà il
-%vincolo 3)
-%e la differenza U-S (dove S esprimerà i vincoli 1 e 2)
+%equazioni di Riccati, tramite la differenza quadratica.
 %Definizione intervalli di tempo:
 %Istante 0 corrisponde all'indice 1
 %L'istante finale corrisponde all'indice horizon ( 7 )
@@ -42,7 +40,7 @@ else
 end
 
 %Y libera del sistema U=0;
-U=zeros(size(B,2),T);
+U = zeros(size(B,2),T);
 
 % Simulare:
 sys = ss(A,B,C,D);
@@ -58,8 +56,6 @@ title('Risposta libera')
 %Punto 1)
 
 %Definizione parametri per le matrici dei costi:
-alfa = 1;
-beta = 1;
 gamma = 3; %Quanto vogliamo il riferimento a 0 degli stati
 eta = 2.26; %Per rendere la matrice R semidefinita positiva
 q = 1; %Quanto 'costa' lo stato
@@ -73,7 +69,8 @@ Q(3,3) = 0;
 Q = q*(Q + gamma*eye(3));
 Qf = Q;
 
-R = r*([16 0 -4 0 0; 0 alfa 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta*eye(5));
+R = [16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4];
+R = r*(R + eta*eye(5));
 
 %Ottengo il valore di Kp:
 [K ,P] = lqrfinite(A, B, Q, Qf, R, T);

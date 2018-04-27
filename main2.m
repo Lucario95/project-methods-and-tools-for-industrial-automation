@@ -16,7 +16,7 @@ C = [1 0 -1; 0 -1 1];
 D = zeros(3,5);
 
 %Media della distribuzione di x nell'istante t = 0:
-X0 = [100, 70, -45]';
+X0 = [100, 70, 20]';
 
 %Punto 2)
 %     Non è possibile misurare x2(t): la misura dello stato è affetta da rumore a media
@@ -53,8 +53,6 @@ V(:,:,i) = sigmaV*randValuesV(:,:,i) + MUv(:,i);
 end
 
 %Definizione parametri per le matrici dei costi:
-alfa = 1;
-beta = 1;
 gamma = 3; %Quanto vogliamo il riferimento a 0 degli stati
 eta = 2.26; %Per rendere la matrice R semidefinita positiva
 q = 1; %Quanto 'costa' lo stato
@@ -68,7 +66,8 @@ Q(3,3) = 0;
 Q = q*(Q + gamma*eye(3));
 Qf = Q;
 
-R = r*([16 0 -4 0 0; 0 alfa 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta*eye(5));
+R = [16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4];
+R = r*(R + eta*eye(5));
 
 [Kp, ~] = lqrfinite(A, B, Q, Qf, R, T);
 
