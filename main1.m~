@@ -10,7 +10,7 @@ clear;
 % U indica le quantità di prodotto in uscita o le quantità di materiale 
 % grezzo in ingresso (5 componenti).
 
-% Si richiede: 
+% Si richiede, inoltre: 
 % U(3,:) ~ 4 * U(1,:)
 % U(4,:) ~ 2 * U(5,:)
 % X(2,:) ~ X(1,:)
@@ -52,43 +52,48 @@ subplot(3, 1, 1);
 plot(interval, Y)
 axis('tight');
 title('Risposta libera')
-legend('x1', 'x2', 'x3');
 
 
 % DEFINIZIONE MATRICI Q E R
-q = 2;      % Definisce il peso (costo) dello stato.
+%Definizione parametri per le matrici dei costi:
+q = 1;      % Definisce il peso (costo) dello stato.
 r = 1;      % Definisce il peso (costo) del controllo.
-gamma = 1;  % Peso per portare a zero lo stato.
-eta = 1;    % Peso per portare a zero il controllo.
+gamma = 3;  % Peso per portare a zero lo stato.
+eta = 2.26; % Peso per portare a zero il controllo.
+
 Q = q * ([1 -1 0; -1 1 0; 0 0 0] + gamma * eye(3));
+Q(2,1) = -1;
+Q(1,2) = -1;
+Q(3,3) = 0;
+Q = q*(Q + gamma*eye(3));
 Qf = Q;
-R = r * ([16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta * eye(5));
 
+R = [16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4];
+R = r*(R + eta*eye(5));
 
-% CALCOLO DI Kp
-% Ottengo il valore di Kp:
+%Ottengo il valore di Kp:
 [K ,P] = lqrfinite(A, B, Q, Qf, R, T);
 
-
-% SIMULAZIONE SISTEMA CON CONTROLLO OTTIMO
+%Simulo il sistema con il controllo ottimo:
 X = zeros(size(X0,1), T+1);
 U = zeros(size(B,2), T);
 Y = zeros(size(C,1), T);
 X(:,1) = X0;
+U(:,1) = K(:,:,1)*X0;
 for k = 1:T
-    % Calcolo del controllo ottimo:
-    U(:,k) = K(:,:,k) * X(:,k);
-    % Calcolo dello stato successivo:
-    X(:,k+1) = A * X(:,k) + B * U(:,k);
-    Y(:,k) = C * X(:,k);
+    U(:,k) = K(:,:,k)*X(:,k);
+    X(:,k+1) = A*X(:,k) + B*U(:,k);
+    Y(:,k) = C*X(:,k);
 end
-% Plot dello stato controllato:
-subplot (3, 1, 2);
-plot(interval, Y);
-title('Stato con LQR');
-legend('x1', 'x2', 'x3');
-% Plot dei controlli:
-subplot(3, 1, 3);
-plot(interval, U);
-title('Controlli');
-legend('u1', 'u2', 'u3', 'u4', 'u5');
+
+%Plot della simulazione:
+subplot (3,1,2);
+plot(interval,Y);
+title('CONTROLLO STATO LQR');
+legend('x1','x2','x3');
+
+%Plot del controllo:
+subplot (3,1,3);
+plot(interval,U);
+title('CONTROLLI LQR');
+legend('u1','u2','u3', 'u4', 'u5');

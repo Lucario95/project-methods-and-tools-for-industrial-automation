@@ -37,9 +37,8 @@ function [X_star, U_star, x] = mykalmanfilter(A, B, C, Kp, alfa, sigmaX, sigmaV,
         x(:,i+1) = A * x(:,i) + B * U_star(:,i) + W(:,:,i);
         % Calcolo dell'uscita reale:
         Y_star(:,i+1) = C * x(:,i+1) + V(:,:,i+1);
-        MU(:,i+1) = A * MU(:,i) + B * U_star(:,i) + K(:,:,i+1) * (Y_star(:,i+1) - C * (A * MU(:,i) + B * U_star(:,i)));
+        MU(:,i+1) = A * MU(:,i) + B * U_star(:,i) + K(:,:,i+1) * (Y_star(:,i+1) - C*(A*MU(:,i) + B*U_star(:,i) ) );
     end
-    % Ritorna lo stato stimato:
     X_star = MU;
     
 end

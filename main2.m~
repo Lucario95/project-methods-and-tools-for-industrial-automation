@@ -36,7 +36,7 @@ MUv = mu * ones(size(C,1),T);
 MUw = mu * ones(size(X0,1),T);
 % Varianze delle distribuzioni normali di X, V, e W:
 sigmaX = 1 * eye(3);
-sigmaV = 1.5 * eye(2);
+sigmaV = 4.5 * eye(2);
 sigmaW = 2 * eye(3);
 
 % Inizializzazione generatori di numeri casuali:
@@ -58,7 +58,7 @@ end
 q = 2;      % Definisce il peso (costo) dello stato.
 r = 1;      % Definisce il peso (costo) del controllo.
 gamma = 3;  % Peso per portare a zero lo stato.
-eta = 2.26; % Peso per portare a zero il controllo.
+eta = 2.26;    % Peso per portare a zero il controllo.
 Q = q * ([1 -1 0; -1 1 0; 0 0 0] + gamma * eye(3));
 Qf = Q;
 R = r * ([16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta * eye(5));
