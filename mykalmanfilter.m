@@ -11,7 +11,8 @@ function [X_star, U_star, x] = mykalmanfilter(A, B, C, Kp, alfa, sigmaX, sigmaV,
     E = zeros(size(alfa,1),size(alfa,1),T);     % Termine sigma nella forma ricorsiva (forward) del filtro di Kalman.
     
     % Valori iniziali:
-    x(:,1) = alfa;
+    rng(2, 'twister');
+    x(:,1) = alfa + sigmaX*randn(size(alfa,1), 1);
     Y_star(:,1) = C * alfa + V(:,:,1);
     E(:,:,1) = inv(inv(sigmaX) + C' * sigmaV * C);
     K(:,:,1) = E(:,:,1) * C' * sigmaV^(-1);

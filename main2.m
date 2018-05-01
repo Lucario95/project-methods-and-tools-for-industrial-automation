@@ -23,7 +23,7 @@ A = eye(3);
 B = [2 0 -1 0 0; 0 1 0 -2 0; 0 0 1 3 -1];
 % Y presenta solo due componenti:
 C = [1 0 -1; 0 -1 1];
-D = zeros(3,5);
+D = zeros(2,5);
 
 % Valor medio della distribuzione normale di X:
 X0 = [100, 70, 20]';
@@ -59,9 +59,9 @@ q = 2;      % Definisce il peso (costo) dello stato.
 r = 1;      % Definisce il peso (costo) del controllo.
 gamma = 3;  % Peso per portare a zero lo stato.
 eta = 2.26; % Peso per portare a zero il controllo.
-Q = q * ([1 -1 0; -1 1 0; 0 0 0] + gamma * eye(3));
+Q = q * ([1 -1 0; -1 1 0; 0 0 0] + gamma * eye(size(X0,1)));
 Qf = Q;
-R = r * ([16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta * eye(5));
+R = r * ([16 0 -4 0 0; 0 0 0 0 0; -4 0 1 0 0; 0 0 0 1 -2; 0 0 0 -2 4] + eta * eye(size(B,2)));
 
 
 % CALCOLO DI Kp
