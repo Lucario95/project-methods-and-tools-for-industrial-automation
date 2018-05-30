@@ -98,6 +98,7 @@ end
 
 
 % Johnson per le macchine M2 e M4:
+% TODO da controllare!
 
 i = 1; 
 j = 5;
@@ -181,36 +182,41 @@ while i <= 5
     i = i + 1;
 end
 
-
 % Controlliamo se ci siano conflitti tra i job della prima lista e i job
 % della seconda lista, nella macchina M5:
 i = 1;
 while i <= 5
 
-    % Controlliamo se gli intervalli di esecuzione sulla macchina M5 si
-    % sovrappongono, o meno:
-    
-    % Sovrapposizione di un job della seconda lista con un job della prima
-    % lista ancora in esecuzione nella macchina M5:
-    if CT2(i, 2) > CT1(i, 2) && CT2(i, 2) < CT1(i, 3)
-        % Introduciamo un ritardo pari al tempo per cui si sovrappongono:
-        j = i;
-        while j <= 5
-            delay = CT1(i, 3) - CT2(i, 2);
-            CT2(j, 2:3) = CT2(j, 2:3) + delay; 
+    k = 1;
+    while k <= 5
+       
+        if CT2(i, 2) > CT1(k, 2) && CT2(i, 2) < CT1(k, 3)
+            % Introduciamo un ritardo pari al tempo per cui si 
+            % sovrappongono:
+            j = i;
+            while j <= 5
+                delay = CT1(k, 3) - CT2(i, 2);
+                CT2(j, 2:3) = CT2(j, 2:3) + delay;               
+                j = j + 1;
+            end
         end
-    elseif CT1(i, 2) > CT2(i, 2) && CT1(i, 2) < CT2(i, 3)        
-        j = i;
-        while j <= 5
-            delay = CT2(i, 3) - CT1(i, 2);
-            CT1(j, 2:3) = CT1(j, 2:3) + delay; 
-        end     
+        
+        if CT1(i, 2) > CT2(k, 2) && CT1(i, 2) < CT2(k, 3)
+            j = i;
+            while j <= 5
+                delay = CT2(k, 3) - CT1(i, 2);
+                CT1(j, 2:3) = CT1(j, 2:3) + delay;            
+                j = j + 1;
+            end     
+        end
+        
+        k = k + 1;
+        
     end
     
     i = i + 1;
     
 end
-
 
 % Stampiamo l'ordine di scheduling:
 scheduled_jobs1
