@@ -12,9 +12,6 @@ P = [ 1 : 10;
       13 10 1 15 6 12 11 4 4 13;
       2 6 2 1 5 13 2 7 18 3]';
   
-
-% SUDDIVISIONE DELLA LISTA DEI JOB NON SCHEDULATI:
-  
 % Liste dei job non ancora schedulati per la macchina M1 e la macchina M2:
 unscheduled_jobs1 = zeros(1, 5);
 unscheduled_jobs2 = zeros(1, 5);
@@ -54,170 +51,12 @@ while (i1 <= 5 && j1 <= 10) || (i2 <= 5 && j2 <= 10)
     
 end
 
+scheduled_jobsM13 = johnson(P(unscheduled_jobs1(:), [1 2]), P(unscheduled_jobs1(:), [1 4]));
+scheduled_jobsM24 = johnson(P(unscheduled_jobs2, [1 3]), P(unscheduled_jobs2, [1 5]));
 
-% APPLICAZIONE ALGORITMO DI JOHNSON PER LE COPPIE (M1, M3) E (M2, M4):
+schedule_timesM13 = runjobs(P(scheduled_jobsM13(:), [1 2 4 6]));
+schedule_timesM24 = runjobs(P(scheduled_jobsM24(:), [1 3 5 6]));
 
-% Johnson per le macchine M1 e M3:
-
-i = 1; 
-j = 5;
-i11 = 1;
-i13 = 1;
-% Ordine di scheduling:
-scheduled_jobs1 = zeros(1, 5);
-
-P1 = P(unscheduled_jobs1,[1, 2, 4]);
-[~, order] = sort(P1(:, 2));
-% Sottomatrice di P ordinata rispetto ai tempi di processo per la macchina
-% M1:
-P11 = P1(order, :);                 
-[~, order] = sort(P1(:, 3));
-% Sottomatrice di P ordinata rispetto ai tempi di processo per la macchina
-% M3:
-P13 = P1(order, :);                 
+schedule_timesM5 = checkcollisions(schedule_timesM13(:, [1 5 6]), schedule_timesM24(:, [1 5 6]));
 
 
-% Riempiamo la lista degli scheduled jobs:
-while i <= 5 && j >= 1 && any(scheduled_jobs1(:, :) == 0)                 
-
-    if P11(i11, 2) >= P13(i13, 3)
-        if ~any(scheduled_jobs1(:, :) == P13(i13, 1))
-            scheduled_jobs1(1, j) = P13(i13, 1);
-            j = j - 1;
-        end
-        i13 = i13 + 1;
-    else
-        if ~any(scheduled_jobs1(:, :) == P11(i11, 1))
-            scheduled_jobs1(1, i) = P11(i11, 1);
-            i = i + 1;
-        end
-        i11 = i11 + 1;
-    end
-    
-end
-
-
-% Johnson per le macchine M2 e M4:
-% TODO da controllare!
-
-i = 1; 
-j = 5;
-i22 = 1;
-i24 = 1;
-scheduled_jobs2 = zeros(1, 5);
-
-P2 = P(unscheduled_jobs2,[1, 3, 5]);   
-[~, order] = sort(P2(:, 2));
-P22 = P2(order, :);                 
-[~, order] = sort(P1(:, 3));
-P24 = P2(order, :);                 
-
-
-% Riempiamo la lista degli scheduled jobs:
-while i <= 5 && j >= 1 && any(scheduled_jobs2(:, :) == 0) 
-
-    if P22(i22, 2) >= P24(i24, 3)
-        if ~any(scheduled_jobs2(:, :) == P24(i24, 1))
-            scheduled_jobs2(1, j) = P24(i24, 1);
-            j = j - 1;
-        end
-        i24 = i24 + 1;
-    else
-        if ~any(scheduled_jobs2(:, :) == P22(i22, 1))
-            scheduled_jobs2(1, i) = P22(i22, 1);
-            i = i + 1;
-        end
-        i22 = i22 + 1;
-    end
-    
-end
-
-
-% Matrice dei tempi di inizio e di fine esecuzione alla macchina M5: la 
-% prima colonna contiene gli id dei job, la seconda colonna contiene i 
-% tempi di inizio alla macchina M5, e la terza colonna contiene
-% i tempi di completamento alla macchina M5.
-CT1 = zeros(5, 3);
-i = 1;
-t = 0;                                                                      % Tempo di inizio del job i alla macchina M1.
-while i <= 5
-    id = scheduled_jobs1(1, i);
-    p1 = P(id, 2);                                                          % Tempo di processo alla macchina M1.
-    p3 = P(id, 4);                                                          % Tempo di processo alla macchina M3.
-    p5 = P(id, 6);                                                          % Tempo di processo alla macchina M5.
-    CT1(i, 1) = id;
-    CT1(i, 2) = p1 + p3 + t;
-    t = p1 + t;                                                             % Indica il tempo di inizio alla macchina M1 per il prossimo job.
-    i = i + 1;
-end
-
-i = 1;
-while i <= 5
-    id = scheduled_jobs1(1, i);
-    p5 = P(id, 6);      
-    CT1(i, 3) = CT1(i, 2) + p5;
-    i = i + 1;
-end
-
-
-CT2 = zeros(5, 3);
-i = 1;
-t = 0; 
-while i <= 5
-    id = scheduled_jobs2(1, i);
-    p2 = P(id, 3);      
-    p4 = P(id, 5);      
-    p5 = P(id, 6);      
-    CT2(i, 1) = id;
-    CT2(i, 2) = p2 + p3 + t;
-    t = p2 + t; 
-    i = i + 1;
-end
-
-i = 1;
-while i <= 5
-    id = scheduled_jobs2(1, i);
-    p5 = P(id, 6);      
-    CT2(i, 3) = CT2(i, 2) + p5;
-    i = i + 1;
-end
-
-% Controlliamo se ci siano conflitti tra i job della prima lista e i job
-% della seconda lista, nella macchina M5:
-i = 1;
-while i <= 5
-
-    k = 1;
-    while k <= 5
-       
-        if CT2(i, 2) > CT1(k, 2) && CT2(i, 2) < CT1(k, 3)
-            % Introduciamo un ritardo pari al tempo per cui si 
-            % sovrappongono:
-            j = i;
-            while j <= 5
-                delay = CT1(k, 3) - CT2(i, 2);
-                CT2(j, 2:3) = CT2(j, 2:3) + delay;               
-                j = j + 1;
-            end
-        end
-        
-        if CT1(i, 2) > CT2(k, 2) && CT1(i, 2) < CT2(k, 3)
-            j = i;
-            while j <= 5
-                delay = CT2(k, 3) - CT1(i, 2);
-                CT1(j, 2:3) = CT1(j, 2:3) + delay;            
-                j = j + 1;
-            end     
-        end
-        
-        k = k + 1;
-        
-    end
-    
-    i = i + 1;
-    
-end
-
-% Stampiamo l'ordine di scheduling:
-scheduled_jobs1
-scheduled_jobs2
