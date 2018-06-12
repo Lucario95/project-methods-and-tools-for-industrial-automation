@@ -27,8 +27,6 @@ function [schedule_times_on_M5] = checkcollisions(schedule_flow_1, schedule_flow
                 
                 if schedule_flow_1(i, 2) <= schedule_flow_2(j, 2) && schedule_flow_1(i, 3) > schedule_flow_2(j, 2)
                 
-                    disp("coll1");
-                    
                     % Ritardiamo il job j e tutti i suoi successori:
                     delay = schedule_flow_1(i, 3) - schedule_flow_2(j, 2);       % Tempo di fine del job i meno il tempo di inizio del job j
                     k = j;
@@ -61,9 +59,6 @@ function [schedule_times_on_M5] = checkcollisions(schedule_flow_1, schedule_flow
                 
                 if schedule_flow_2(j, 2) <= schedule_flow_1(i, 2) && schedule_flow_2(j, 3) > schedule_flow_1(i, 2)
                 
-                    disp("coll2");
-                    
-                    
                     % Ritardiamo il job j e tutti i suoi successori:
                     delay = schedule_flow_2(j, 3) - schedule_flow_1(i, 2);       % Tempo di fine del job i meno il tempo di inizio del job j
                     k = i;

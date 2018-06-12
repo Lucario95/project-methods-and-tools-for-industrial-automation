@@ -57,6 +57,6 @@ scheduled_jobsM24 = johnson(P(unscheduled_jobs2, [1 3]), P(unscheduled_jobs2, [1
 schedule_timesM13 = runjobs(P(scheduled_jobsM13(:), [1 2 4 6]));
 schedule_timesM24 = runjobs(P(scheduled_jobsM24(:), [1 3 5 6]));
 
-schedule_timesM5 = checkcollisions(schedule_timesM13(:, [1 5 6]), schedule_timesM24(:, [1 5 6]));
+schedule_timesM5 = checkcollisions(schedule_timesM13(:, [1 5 6]), schedule_timesM24(:, [1 5 6]))
 
 
