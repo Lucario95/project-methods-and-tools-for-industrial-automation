@@ -24,7 +24,7 @@ function [somma_giacenze, costo_ordinazione, costo_mantenimento, costo_unita_pro
             if j <= size(domanda, 1)
                 quantita_magazzino = quantita_magazzino - domanda(j,:);
                 somma_giacenze(k, :) = somma_giacenze(k, :) + quantita_magazzino;
-                costo_stoccaggio_periodo(k, :) = costo_stoccaggio_periodo(k, :) + costo_stoccaggio_kl * quantita_magazzino;
+                costo_stoccaggio_periodo(k, :) = costo_stoccaggio_periodo(k, :) + costo_stoccaggio_kl(1, :) .* quantita_magazzino(1, :);
             end
         end
        
@@ -37,7 +37,16 @@ function [somma_giacenze, costo_ordinazione, costo_mantenimento, costo_unita_pro
         end
         
         if tempo_approvvigionamento ~= 0
-            costo_unita_tempo(k, :) = (costo_ordinazione(k, :) + costo_mantenimento(k, :)) ./ tempo_approvvigionamento;
+            if(tempo_approvvigionamento + i > size(domanda,1))
+               
+                costo_unita_tempo(k, :) = (costo_ordinazione(k, :) + costo_mantenimento(k, :)) / (tempo_approvvigionamento + i - size(domanda,1));
+                
+            else
+            
+                costo_unita_tempo(k, :) = (costo_ordinazione(k, :) + costo_mantenimento(k, :)) / tempo_approvvigionamento;
+                
+            end
+            
         else
             costo_unita_tempo(k, :) = 0;
         end
@@ -46,5 +55,5 @@ function [somma_giacenze, costo_ordinazione, costo_mantenimento, costo_unita_pro
         k = k + 1;
         
     end
-
+    
 end
