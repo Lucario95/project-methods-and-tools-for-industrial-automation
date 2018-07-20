@@ -23,12 +23,12 @@ punto_vendita457 = removenanvalues(punto_vendita457);
 
 % Esportiamo i dati puliti su un file excel, un foglio per ogni punto
 % vendita:
-% xlswrite("dati/data.xls", punto_vendita439, "439");
-% xlswrite("dati/data.xls", punto_vendita443, "443");
-% xlswrite("dati/data.xls", punto_vendita445, "445");
-% xlswrite("dati/data.xls", punto_vendita447, "447");
-% xlswrite("dati/data.xls", punto_vendita452, "452");
-% xlswrite("dati/data.xls", punto_vendita457, "457");
+% xlswrite("dati/pv439.xls", punto_vendita439);
+% xlswrite("dati/pv443.xls", punto_vendita443);
+% xlswrite("dati/pv445.xls", punto_vendita445);
+% xlswrite("dati/pv447.xls", punto_vendita447);
+% xlswrite("dati/pv452.xls", punto_vendita452);
+% xlswrite("dati/pv457.xls", punto_vendita457);
 
 % Prezzo di vendita unitario al litro, uno per ogni carburante:
 P = [1.6, 1.9, 1.4];
