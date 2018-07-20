@@ -3,6 +3,9 @@ function [somma_giacenze, costo_ordinazione, costo_mantenimento, costo_unita_pro
     i = 1;
     k = 1;
     
+    % Esprimiamo la domanda in KL:
+    domanda = domanda / 1000;
+    
     while i < size(domanda, 1)
     
         % Quantità da ordinare (una per ogni carburante):

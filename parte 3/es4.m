@@ -24,8 +24,8 @@ punto_vendita457 = removenanvalues(punto_vendita457);
 % Prezzo di vendita unitario al litro, uno per ogni carburante:
 P = [1.6, 1.9, 1.4];
 % Costo di mantenimento percentuale annuale:
-costo_perc = 0.1;
-costo_mantenimento_kl = P * costo_perc / size(punto_vendita439, 1);
+costo_perc = 0.3;
+costo_mantenimento_kl = P * 1000 * costo_perc / size(punto_vendita439, 1);
 % Distanza in Km:
 distanza = 200;
 % Capienza autobotte in KL:
