@@ -31,7 +31,7 @@ distanza = 200;
 capienza_autob = 39;
 costo_km = 0.5;
 % Costo di mantenimento percentuale annuale:
-costo_perc = 0.3;
+costo_perc = 0.03;
 % Prezzo di vendita unitario al litro, uno per ogni carburante:
 P = [1.6, 1.9, 1.4];
 costo_mantenimento_kl = P * 1000 * costo_perc / size(punto_vendita439, 1);
