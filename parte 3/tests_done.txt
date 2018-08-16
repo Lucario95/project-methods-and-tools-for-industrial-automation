@@ -22,5 +22,11 @@
   per 2 scompartimenti con capacità 30, 9 -> nessuna soluzione
   Orizzonte temporale 8..14: 
   per 5 scompartimenti con capacità 3, 5, 7, 11, 13 -> nessuna soluzione
+  per 3 scompartimenti con capacità 13, 15, 11 -> nessuna soluzione
+  per 4 scompartimenti con capacità 10, 10, 10, 10 -> nessuna soluzione
+  per 4 scompartimenti con capacità 20, 20, 20, 20 -> 25 min
   Orizzonte temporale 6..7:
+  per 4 scompartimenti con capacità 20, 20, 20, 20 -> 25 min
   per 5 scompartimenti con capacità 3, 5, 7, 11, 13 -> t > 20 min
+  per 3 scompartimenti con capacità 13, 15, 11 -> t > 25 min
+  per 4 scompartimenti con capacità 10, 10, 10, 10 -> 20 min
