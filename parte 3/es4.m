@@ -74,58 +74,102 @@ costo_lotto_economico_457 = costo_mantenimento_kl(:, [1, 3]) ./ 1000 .* lotto_ec
 % xlswrite("dati/pv457.xls", punto_vendita457);
 
 % Parte 3:
-dimensione_lotto_439 = getlotsize(capienza_autob, costo_km, punto_vendita439, distanza, costo_mantenimento_kl(:, [1, 3]));
-dimensione_lotto_443 = getlotsize(capienza_autob, costo_km, punto_vendita443, distanza, costo_mantenimento_kl);
-dimensione_lotto_445 = getlotsize(capienza_autob, costo_km, punto_vendita445, distanza, costo_mantenimento_kl);
-dimensione_lotto_447 = getlotsize(capienza_autob, costo_km, punto_vendita447, distanza, costo_mantenimento_kl);
-dimensione_lotto_452 = getlotsize(capienza_autob, costo_km, punto_vendita452, distanza, costo_mantenimento_kl);
-dimensione_lotto_457 = getlotsize(capienza_autob, costo_km, punto_vendita457, distanza, costo_mantenimento_kl(:, [1, 3]));
+[tempo_appr_439_sm, tempo_appr_439_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita439, distanza, costo_mantenimento_kl(:, [1, 3]));
+[tempo_appr_443_sm, tempo_appr_443_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita443, distanza, costo_mantenimento_kl);
+[tempo_appr_445_sm, tempo_appr_445_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita445, distanza, costo_mantenimento_kl);
+[tempo_appr_447_sm, tempo_appr_447_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita447, distanza, costo_mantenimento_kl);
+[tempo_appr_452_sm, tempo_appr_452_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita452, distanza, costo_mantenimento_kl);
+[tempo_appr_457_sm, tempo_appr_457_mtc] = getlotsize(capienza_autob, costo_km, punto_vendita457, distanza, costo_mantenimento_kl(:, [1, 3]));
 
-[somma_giacenze_439, costo_ordinazione_439, costo_mantenimento_439, costo_unita_prodotto_439, costo_unita_tempo_439] = silveremeal(punto_vendita439, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), dimensione_lotto_439);
-[somma_giacenze_443, costo_ordinazione_443, costo_mantenimento_443, costo_unita_prodotto_443, costo_unita_tempo_443] = silveremeal(punto_vendita443, capienza_autob, costo_km, distanza, costo_mantenimento_kl, dimensione_lotto_443);
-[somma_giacenze_445, costo_ordinazione_445, costo_mantenimento_445, costo_unita_prodotto_445, costo_unita_tempo_445] = silveremeal(punto_vendita445, capienza_autob, costo_km, distanza, costo_mantenimento_kl, dimensione_lotto_445);
-[somma_giacenze_447, costo_ordinazione_447, costo_mantenimento_447, costo_unita_prodotto_447, costo_unita_tempo_447] = silveremeal(punto_vendita447, capienza_autob, costo_km, distanza, costo_mantenimento_kl, dimensione_lotto_447);
-[somma_giacenze_452, costo_ordinazione_452, costo_mantenimento_452, costo_unita_prodotto_452, costo_unita_tempo_452] = silveremeal(punto_vendita452, capienza_autob, costo_km, distanza, costo_mantenimento_kl, dimensione_lotto_452);
-[somma_giacenze_457, costo_ordinazione_457, costo_mantenimento_457, costo_unita_prodotto_457, costo_unita_tempo_457] = silveremeal(punto_vendita457, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), dimensione_lotto_457);
+[somma_giacenze_439_sm, costo_ordinazione_439_sm, costo_mantenimento_439_sm, costo_unita_prodotto_439_sm, costo_unita_tempo_439_sm] = silveremeal(punto_vendita439, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), tempo_appr_439_sm);
+[somma_giacenze_443_sm, costo_ordinazione_443_sm, costo_mantenimento_443_sm, costo_unita_prodotto_443_sm, costo_unita_tempo_443_sm] = silveremeal(punto_vendita443, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_443_sm);
+[somma_giacenze_445_sm, costo_ordinazione_445_sm, costo_mantenimento_445_sm, costo_unita_prodotto_445_sm, costo_unita_tempo_445_sm] = silveremeal(punto_vendita445, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_445_sm);
+[somma_giacenze_447_sm, costo_ordinazione_447_sm, costo_mantenimento_447_sm, costo_unita_prodotto_447_sm, costo_unita_tempo_447_sm] = silveremeal(punto_vendita447, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_447_sm);
+[somma_giacenze_452_sm, costo_ordinazione_452_sm, costo_mantenimento_452_sm, costo_unita_prodotto_452_sm, costo_unita_tempo_452_sm] = silveremeal(punto_vendita452, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_452_sm);
+[somma_giacenze_457_sm, costo_ordinazione_457_sm, costo_mantenimento_457_sm, costo_unita_prodotto_457_sm, costo_unita_tempo_457_sm] = silveremeal(punto_vendita457, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), tempo_appr_457_sm);
+
+[somma_giacenze_439_mtc, costo_ordinazione_439_mtc, costo_mantenimento_439_mtc, costo_unita_prodotto_439_mtc, costo_unita_tempo_439_mtc] = silveremeal(punto_vendita439, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), tempo_appr_439_mtc);
+[somma_giacenze_443_mtc, costo_ordinazione_443_mtc, costo_mantenimento_443_mtc, costo_unita_prodotto_443_mtc, costo_unita_tempo_443_mtc] = silveremeal(punto_vendita443, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_443_mtc);
+[somma_giacenze_445_mtc, costo_ordinazione_445_mtc, costo_mantenimento_445_mtc, costo_unita_prodotto_445_mtc, costo_unita_tempo_445_mtc] = silveremeal(punto_vendita445, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_445_mtc);
+[somma_giacenze_447_mtc, costo_ordinazione_447_mtc, costo_mantenimento_447_mtc, costo_unita_prodotto_447_mtc, costo_unita_tempo_447_mtc] = silveremeal(punto_vendita447, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_447_mtc);
+[somma_giacenze_452_mtc, costo_ordinazione_452_mtc, costo_mantenimento_452_mtc, costo_unita_prodotto_452_mtc, costo_unita_tempo_452_mtc] = silveremeal(punto_vendita452, capienza_autob, costo_km, distanza, costo_mantenimento_kl, tempo_appr_452_mtc);
+[somma_giacenze_457_mtc, costo_ordinazione_457_mtc, costo_mantenimento_457_mtc, costo_unita_prodotto_457_mtc, costo_unita_tempo_457_mtc] = silveremeal(punto_vendita457, capienza_autob, costo_km, distanza, costo_mantenimento_kl(:, [1, 3]), tempo_appr_457_mtc);
+
 
 disp("Punto vendita 439");
-somma_giacenze_439;
-costo_ordinazione_439;
-costo_mantenimento_439;
-costo_unita_prodotto_439;
-costo_unita_tempo_439;
+somma_giacenze_439_sm;
+costo_ordinazione_439_sm;
+costo_mantenimento_439_sm;
+costo_unita_prodotto_439_sm;
+costo_unita_tempo_439_sm;
+
+somma_giacenze_439_mtc;
+costo_ordinazione_439_mtc;
+costo_mantenimento_439_mtc;
+costo_unita_prodotto_439_mtc;
+costo_unita_tempo_439_mtc;
 
 disp("Punto vendita 443");
-somma_giacenze_443;
-costo_ordinazione_443;
-costo_mantenimento_443;
-costo_unita_prodotto_443;
-costo_unita_tempo_443;
+somma_giacenze_443_sm;
+costo_ordinazione_443_sm;
+costo_mantenimento_443_sm;
+costo_unita_prodotto_443_sm;
+costo_unita_tempo_443_sm;
+
+somma_giacenze_443_mtc;
+costo_ordinazione_443_mtc;
+costo_mantenimento_443_mtc;
+costo_unita_prodotto_443_mtc;
+costo_unita_tempo_443_mtc;
 
 disp("Punto vendita 445");
-somma_giacenze_445;
-costo_ordinazione_445;
-costo_mantenimento_445;
-costo_unita_prodotto_445;
-costo_unita_tempo_445;
+somma_giacenze_445_sm;
+costo_ordinazione_445_sm;
+costo_mantenimento_445_sm;
+costo_unita_prodotto_445_sm;
+costo_unita_tempo_445_sm;
+
+somma_giacenze_445_mtc;
+costo_ordinazione_445_mtc;
+costo_mantenimento_445_mtc;
+costo_unita_prodotto_445_mtc;
+costo_unita_tempo_445_mtc;
 
 disp("Punto vendita 447");
-somma_giacenze_447;
-costo_ordinazione_447;
-costo_mantenimento_447;
-costo_unita_prodotto_447;
-costo_unita_tempo_447;
+somma_giacenze_447_sm;
+costo_ordinazione_447_sm;
+costo_mantenimento_447_sm;
+costo_unita_prodotto_447_sm;
+costo_unita_tempo_447_sm;
+
+somma_giacenze_447_mtc;
+costo_ordinazione_447_mtc;
+costo_mantenimento_447_mtc;
+costo_unita_prodotto_447_mtc;
+costo_unita_tempo_447_mtc;
 
 disp("Punto vendita 452");
-somma_giacenze_452;
-costo_ordinazione_452;
-costo_mantenimento_452;
-costo_unita_prodotto_452;
-costo_unita_tempo_452;
+somma_giacenze_452_sm;
+costo_ordinazione_452_sm;
+costo_mantenimento_452_sm;
+costo_unita_prodotto_452_sm;
+costo_unita_tempo_452_sm;
+
+somma_giacenze_452_mtc;
+costo_ordinazione_452_mtc;
+costo_mantenimento_452_mtc;
+costo_unita_prodotto_452_mtc;
+costo_unita_tempo_452_mtc;
 
 disp("Punto vendita 457");
-somma_giacenze_457;
-costo_ordinazione_457;
-costo_mantenimento_457;
-costo_unita_prodotto_457;
-costo_unita_tempo_457;
+somma_giacenze_457_sm;
+costo_ordinazione_457_sm;
+costo_mantenimento_457_sm;
+costo_unita_prodotto_457_sm;
+costo_unita_tempo_457_sm;
+
+somma_giacenze_457_mtc;
+costo_ordinazione_457_mtc;
+costo_mantenimento_457_mtc;
+costo_unita_prodotto_457_mtc;
+costo_unita_tempo_457_mtc;

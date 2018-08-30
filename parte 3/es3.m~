@@ -7,7 +7,7 @@ costo_ordinazione_lotto = 75;
 giorni_anno = 288;
 consumo_giornaliero = int8(consumo_anno / giorni_anno);
 media_tempo_riordino = 5;
-deviazione_std_riordino = 3;
+deviazione_std_riordino = 2;
 scorta_iniziale = 0;
 
 scorta = zeros(1, giorni_anno);
@@ -22,7 +22,7 @@ tempo_riordino = zeros(1, giorni_anno);
 rng(1, 'twister');
 tempo_riordino_norm = randn(giorni_anno, 1);
 for i = 1:giorni_anno
-    tempo_riordino(1, i) = abs(int8(tempo_riordino_norm(i, 1) * deviazione_std_riordino + media_tempo_riordino));
+    tempo_riordino(1, i) = int8(tempo_riordino_norm(i, 1) * deviazione_std_riordino + media_tempo_riordino);
 end
 tempo_riordino(1, 1:2) = 6;
 
@@ -30,22 +30,18 @@ ordered = 0;
 tempo_consegna_ordine = 0;
 j = 1;
 punto_riordino = zeros(1, giorni_anno);
-fine_secondo_periodo = 0;
 for i = 1:giorni_anno
 
-    punto_riordino(1, i) = consumo_giornaliero * media_tempo_riordino + z * consumo_giornaliero * deviazione_std_riordino; 
+    punto_riordino(1, i) = consumo_giornaliero * tempo_riordino(1, j) + z * consumo_giornaliero * deviazione_std_riordino; 
     
     if i ~= 1 && scorta(1, i - 1) - consumo_giornaliero > 0
         scorta(1, i) = scorta(1, i - 1) - consumo_giornaliero;
     end
-    
+
     if scorta(1, i) < punto_riordino(1, i) && ordered == 0
         tempo_consegna_ordine = i + tempo_riordino(1, j);
         ordered = 1;
         j = j + 1;
-        if j == 3 
-            fine_secondo_periodo = tempo_consegna_ordine;
-        end
     end
     
     if i == tempo_consegna_ordine
@@ -55,5 +51,4 @@ for i = 1:giorni_anno
     
 end
 
-%plot(1:giorni_anno, scorta, 1:giorni_anno, punto_riordino, 1:giorni_anno, Q_star*ones(1, giorni_anno));
-plot(1:fine_secondo_periodo, scorta(1, 1:fine_secondo_periodo), 1:fine_secondo_periodo, punto_riordino(1, 1:fine_secondo_periodo), 1:fine_secondo_periodo, Q_star*ones(1, fine_secondo_periodo));
+plot(1:giorni_anno, scorta, 1:giorni_anno, punto_riordino, 1:giorni_anno, Q_star*ones(1, giorni_anno));

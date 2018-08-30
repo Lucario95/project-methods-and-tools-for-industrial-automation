@@ -1,0 +1,20 @@
+function [tempo_appr] = getlotsize(capienza_autob, costo_km, punto_vendita, distanza, costo_mantenimento_kl) 
+
+    dimensione_lotto = 0;
+    costo_unita_tempo_min = 10000000000;
+    for i = 1:size(punto_vendita, 1)
+        [~, ~, ~, ~, costo_unita_tempo] = silveremeal(punto_vendita, capienza_autob, costo_km, distanza, costo_mantenimento_kl, i); 
+        media_costo_unita_tempo = 0;
+        for j = 1:size(costo_unita_tempo, 2)
+            for k = 1:size(costo_unita_tempo,1)
+                media_costo_unita_tempo = media_costo_unita_tempo + costo_unita_tempo(k,j); 
+            end
+        end
+        media_costo_unita_tempo = media_costo_unita_tempo / (size(costo_unita_tempo, 2)*size(costo_unita_tempo,1));
+        if media_costo_unita_tempo < costo_unita_tempo_min
+            dimensione_lotto = i;
+            costo_unita_tempo_min = media_costo_unita_tempo;
+        end
+    end
+
+end
